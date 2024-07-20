@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解压小游戏</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffecf2;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        #game-container {
+            text-align: center;
+            background-color: #fff0f5;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        #stress-button {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        #stress-button:hover {
+            background-color: #ff8e8e;
+        }
+        #stress-level {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+        .icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #ffcc00;
+            animation: explode 1s ease-out;
+            opacity: 0;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(10);
+                opacity: 0;
+            }
+        }
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: #ff6b6b;
+            opacity: 0;
+            animation: fadeInOut 3s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div class="icon">🌸</div>
+        <button id="stress-button">点击解压</button>
+        <div id="stress-level">压力等级: 100</div>
+    </div>
+    <script>
+        let stressLevel = 100;
+        const stressButton = document.getElementById('stress-button');
+        const stressLevelDisplay = document.getElementById('stress-level');
+        const gameContainer = document.getElementById('game-container');
+
+        stressButton.addEventListener('click', () => {
+            if (stressLevel > 0) {
+                stressLevel -= 10;
+                stressLevelDisplay.textContent = `压力等级: ${stressLevel}`;
+            } else {
+                stressLevelDisplay.textContent = '压力已完全释放！';
+                stressButton.disabled = true;
+                stressButton.style.backgroundColor = '#ccc';
+                showFireworks();
+                showMessage();
+            }
+        });
+
+        function showFireworks() {
+            for (let i = 0; i < 20; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                gameContainer.appendChild(firework);
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+        }
+
+        function showMessage() {
+            const message = document.createElement('div');
+            message.classList.add('message');
+            message.textContent = '要开开心心呐！';
+            gameContainer.appendChild(message);
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
